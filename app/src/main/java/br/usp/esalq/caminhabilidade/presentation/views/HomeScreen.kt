@@ -34,38 +34,33 @@ import br.usp.esalq.caminhabilidade.R
 import br.usp.esalq.caminhabilidade.presentation.theme.WalkersTheme
 
 @Composable
-fun HomeScreen() {
-    WalkersTheme {
-        AppScaffold {
-            ScreenScaffold(
-            ) { contentPadding -> // ScreenScaffold provides default padding; adjust as needed
+fun HomeScreen(onStart: () -> Unit) {
+    ScreenScaffold() { contentPadding -> // ScreenScaffold provides default padding; adjust as needed
+        Column(
+            modifier = Modifier
+                .padding(contentPadding)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = "Bem vindo(a)",
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Button(
+                onClick = onStart,
+            ) {
                 Column(
-                    modifier = Modifier
-                        .padding(contentPadding)
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Text(
-                        text = "Bem vindo(a)",
+                    Icon(
+                        imageVector = Icons.Default.PlayArrow,
+                        contentDescription = "Iniciar"
                     )
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Button(
-                        onClick = { /* TODO */ },
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.PlayArrow,
-                                contentDescription = "Iniciar"
-                            )
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text(
-                                text = "Iniciar percurso"
-                            )
-                        }
-                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Iniciar percurso"
+                    )
                 }
             }
         }
