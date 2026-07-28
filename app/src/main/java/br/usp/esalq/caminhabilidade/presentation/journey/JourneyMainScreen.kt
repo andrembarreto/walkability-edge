@@ -37,8 +37,11 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 
 @Composable
-fun JourneyMainScreen() {
-    ScreenScaffold() { contentPadding ->
+fun JourneyMainScreen(
+    elapsedTime: String,
+    onStopJourney: () -> Unit,
+) {
+    ScreenScaffold { contentPadding ->
         Column(
             modifier = Modifier
                 .padding(contentPadding)
@@ -48,7 +51,10 @@ fun JourneyMainScreen() {
         ) {
             HelpButton()
             DimensionSelector()
-            StatusBar()
+            StatusBar(
+                elapsedTime = elapsedTime,
+                onStopJourney = onStopJourney
+            )
         }
     }
 }
@@ -87,7 +93,10 @@ private fun DimensionSelector() {
 }
 
 @Composable
-private fun StatusBar() {
+private fun StatusBar(
+    elapsedTime: String,
+    onStopJourney: () -> Unit
+) {
     var showFinishDialog by remember { mutableStateOf(false) }
 
     Column(
@@ -112,7 +121,7 @@ private fun StatusBar() {
             }
         }
         Text(
-            text = "10:20:30",
+            text = elapsedTime,
             fontSize = 10.sp
         )
     }
@@ -137,7 +146,7 @@ private fun StatusBar() {
             }
         },
         confirmButton = {
-            IconButton(onClick = { /* TODO */ }) {
+            IconButton(onClick = onStopJourney) {
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = ""
@@ -151,5 +160,8 @@ private fun StatusBar() {
 @WearPreviewFontScales
 @Composable
 fun JourneyPreview() {
-    JourneyMainScreen()
+    JourneyMainScreen(
+        elapsedTime = "00:10:00",
+        onStopJourney = {}
+    )
 }
