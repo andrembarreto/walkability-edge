@@ -16,10 +16,15 @@ import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
+import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
+import br.usp.esalq.caminhabilidade.presentation.journey.JourneyMainScreen
 
 @Composable
-fun HomeScreen(onStart: () -> Unit) {
-    ScreenScaffold() { contentPadding -> // ScreenScaffold provides default padding; adjust as needed
+fun HomeScreen(
+    onStartButtonClicked: () -> Unit
+) {
+    ScreenScaffold() { contentPadding ->
         Column(
             modifier = Modifier
                 .padding(contentPadding)
@@ -32,7 +37,7 @@ fun HomeScreen(onStart: () -> Unit) {
             )
             Spacer(modifier = Modifier.height(12.dp))
             Button(
-                onClick = onStart,
+                onClick = onStartButtonClicked,
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -49,4 +54,11 @@ fun HomeScreen(onStart: () -> Unit) {
             }
         }
     }
+}
+
+@WearPreviewDevices
+@WearPreviewFontScales
+@Composable
+fun HomePreview() {
+    HomeScreen(onStartButtonClicked = {})
 }
