@@ -1,4 +1,4 @@
-package br.usp.esalq.caminhabilidade.presentation.views
+package br.usp.esalq.caminhabilidade.presentation.journey
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

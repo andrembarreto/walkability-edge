@@ -5,7 +5,7 @@ import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import br.usp.esalq.caminhabilidade.presentation.home.HomeScreen
-import br.usp.esalq.caminhabilidade.presentation.views.JourneyMainScreen
+import br.usp.esalq.caminhabilidade.presentation.journey.JourneyMainScreen
 
 @Composable
 fun WearAppNavigation() {
