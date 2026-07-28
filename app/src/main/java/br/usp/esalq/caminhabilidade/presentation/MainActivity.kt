@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
+import br.usp.esalq.caminhabilidade.presentation.navigation.WearAppNavigation
 import br.usp.esalq.caminhabilidade.presentation.theme.WalkersTheme
 
 class MainActivity : ComponentActivity() {
