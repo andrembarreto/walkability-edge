@@ -2,16 +2,14 @@ package br.usp.esalq.caminhabilidade.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import br.usp.esalq.caminhabilidade.presentation.home.HomeRoute
-import br.usp.esalq.caminhabilidade.presentation.home.HomeScreen
 import br.usp.esalq.caminhabilidade.presentation.journey.JourneyMainRoute
-import br.usp.esalq.caminhabilidade.presentation.journey.JourneyMainScreen
 import br.usp.esalq.caminhabilidade.presentation.journey.JourneyViewModel
+import br.usp.esalq.caminhabilidade.presentation.send.SendJourneyRoute
 
 @Composable
 fun WearAppNavigation() {
@@ -36,12 +34,12 @@ fun WearAppNavigation() {
             JourneyMainRoute(
                 viewModel = journeyViewModel,
                 onNavigateToFinish = {
-                    navController.navigate("journeyFinish")
+                    navController.navigate("sendJourney")
                 }
             )
         }
-        composable("journeyFinish") {
-            ScreenScaffold {}
+        composable("sendJourney") {
+            SendJourneyRoute()
         }
     }
 }
