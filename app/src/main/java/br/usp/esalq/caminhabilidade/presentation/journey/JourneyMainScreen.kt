@@ -6,12 +6,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Pause
@@ -20,6 +23,7 @@ import androidx.compose.material.icons.filled.RemoveRoad
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -39,6 +43,7 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 @Composable
 fun JourneyMainScreen(
     elapsedTime: String,
+    dimensions: Map<Dimension, List<Option>>,
     onStopJourney: () -> Unit,
 ) {
     ScreenScaffold { contentPadding ->
@@ -50,7 +55,10 @@ fun JourneyMainScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             HelpButton()
-            DimensionSelector()
+            DimensionSelector(
+                dimensions = dimensions.keys.toList(),
+                modifier = Modifier.fillMaxWidth()
+            )
             StatusBar(
                 elapsedTime = elapsedTime,
                 onStopJourney = onStopJourney
@@ -76,19 +84,72 @@ private fun HelpButton() {
 }
 
 @Composable
-private fun DimensionSelector() {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+private fun DimensionSelector(
+    dimensions: List<Dimension>,
+    modifier: Modifier = Modifier
+) {
+
+    var currentIndex by remember { mutableIntStateOf(0) }
+
+    Selector(
+        currentDimension = dimensions[currentIndex],
+        onPreviousClick = {
+            currentIndex = if (currentIndex > 0) currentIndex - 1 else dimensions.lastIndex
+        },
+        onNextClick = {
+            currentIndex = if (currentIndex < dimensions.lastIndex) currentIndex + 1 else 0
+        },
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun Selector(
+    currentDimension: Dimension,
+    onPreviousClick: () -> Unit,
+    onNextClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
     ) {
-        Text(
-            text = "Segurança"
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Icon(
-            imageVector = Icons.Default.Shield,
-            contentDescription = "Segurança",
-            modifier = Modifier.size(30.dp)
-        )
+        IconButton(
+            onClick = onPreviousClick,
+            modifier = Modifier.width(20.dp)
+        ) {
+           Icon(
+               imageVector = Icons.Default.ArrowBackIosNew,
+               contentDescription = "Dimensão anterior"
+           )
+        }
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = currentDimension.name
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Icon(
+                imageVector = currentDimension.icon,
+                contentDescription = currentDimension.name,
+                modifier = Modifier.size(30.dp)
+            )
+        }
+
+        IconButton(
+            onClick = onNextClick,
+            modifier = Modifier.width(20.dp)
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Default.ArrowForwardIos,
+                contentDescription = "Dimensão seguinte"
+            )
+        }
     }
 }
 
@@ -162,6 +223,9 @@ private fun StatusBar(
 fun JourneyPreview() {
     JourneyMainScreen(
         elapsedTime = "00:10:00",
+        dimensions = mapOf(Pair(
+            Dimension("SAFETY", "Segurança", Icons.Default.Shield),
+            listOf(Option("POLICING", "Policiamento", "SAFETY")))),
         onStopJourney = {}
     )
 }
